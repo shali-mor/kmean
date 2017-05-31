@@ -2,6 +2,7 @@
 The goal of this repository is to test the kmean functionality. 
 
 usage =   kmean-consul.py [-k <kmean>][-l <lower>][-u <upper>][-e <epsilon>][-f <file> ][-i <ip>][-h <help>]
+
                           -h     present this help
                           -k     number of cluster  (default 2)
                           -l     lower bound  value (default 0)
