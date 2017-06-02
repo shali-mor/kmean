@@ -10,6 +10,12 @@ http://pandoricweb.tumblr.com/post/8646701677/python-implementation-of-the-k-mea
 
 import sys, getopt, os, json
 import requests
+
+import cluster as Cluster
+import cluster as Point
+
+
+
 plotly = False
 try:
     import plotly
@@ -35,81 +41,6 @@ class Point(object):
         return str(self.coords)
 
 
-
-class Cluster(object):
-    '''
-    A set of points and their centroid
-    '''
-
-    def __init__(self, points,centroid):
-        '''
-        points - A list of point objects
-        '''
-
-        if len(points) == 0:
-            raise Exception("ERROR: empty cluster")
-
-        # The points that belong to this cluster
-        self.points = points
-
-        # The dimensionality of the points in this cluster
-        self.n = points[0].n
-
-        # Assert that all points are of the same dimensionality
-        for p in points:
-            if p.n != self.n:
-                raise Exception("ERROR: inconsistent dimensions")
-
-        # Set up the initial centroid (this is usually based off one point)
-        self.centroid = centroid
-
-    def __repr__(self):
-        '''
-        String representation of this object
-        '''
-        return str(self.points)
-
-def plotClusters(data):
-    '''
-    This uses the plotly offline mode to create a local HTML file.
-    This should open your default web browser.
-    '''
-
-    # Convert data into plotly format.
-    traceList = []
-    for i, c in enumerate(data):
-        # Get a list of x,y coordinates for the points in this cluster.
-        cluster_data = []
-        for point in c.points:
-            cluster_data.append(point.coords)
-
-        trace = {}
-        centroid = {}
-
-        # Convert our list of x,y's into an x list and a y list.
-        trace['x'], trace['y'] = zip(*cluster_data)
-        trace['mode'] = 'markers'
-        trace['marker'] = {}
-        trace['marker']['symbol'] = i
-        trace['marker']['size'] = 12
-        trace['name'] = "Cluster " + str(i)
-        traceList.append(Scatter(**trace))
-        # Centroid (A trace of length 1)
-        centroid['x'] = [c.centroid.coords[0]]
-        centroid['y'] = [c.centroid.coords[1]]
-        centroid['mode'] = 'markers'
-        centroid['marker'] = {}
-        centroid['marker']['symbol'] = i
-        centroid['marker']['color'] = 'rgb(200,10,10)'
-        centroid['name'] = "Centroid " + str(i)
-        traceList.append(Scatter(**centroid))
-
-
-    title = "K-means clustering with %s clusters - Microsoft assignment " % str(len(data))
-    plotly.offline.plot({
-        "data": traceList,
-        "layout": Layout(title=title)
-    })
 
 class kmean_consul(json.JSONEncoder):
     def __init__(self, num_of_cluster, min_boundry, max_boundry,epsilon,number_of_points, dst_ip, user_pair_points):
