@@ -1,6 +1,5 @@
 import random
-import cluster as Cluster
-import cluster as Point
+import cluster
 import s_logger
 
 import json
@@ -34,10 +33,10 @@ def handleKmeanRequest(jsonBody):
         pair_len = len(user_pair_points)
         if (k > pair_len):
             print ("number of cluster " + str(k) + " is bigger than the number of pairs" + str(pair_len))
-            exit(0);
+            return None
         points = []
         for i in xrange(pair_len):
-            points.append(Point(user_pair_points[i]))
+            points.append(cluster.Point(user_pair_points[i]))
         print points
 
     else:
@@ -70,7 +69,7 @@ def makeRandomPoint( lower, upper):
     Returns a Point object with n dimensions and values between lower and
     upper in each of those dimensions
     '''
-    p = Point([random.uniform(lower, upper) for _ in range(2)])
+    p = cluster.Point([random.uniform(lower, upper) for _ in range(2)])
     return p
 
 
@@ -85,7 +84,7 @@ def kmeans(points, k, cutoff  ):
     print initial
     # Create k clusters using those centroids
     # Note: Cluster takes lists, so we wrap each point in a list here.
-    clusters = [Cluster([p]) for p in initial]
+    clusters = [cluster.Cluster([p]) for p in initial]
 
     # Loop through the dataset until the clusters stabilize
     loopCounter = 0
@@ -100,7 +99,7 @@ def kmeans(points, k, cutoff  ):
         for p in points:
             # Get the distance between that point and the centroid of the first
             # cluster.
-            smallest_distance = getDistance(p, clusters[0].centroid)
+            smallest_distance = cluster.getDistance(p, clusters[0].centroid)
 
             # Set the cluster this point belongs to
             clusterIndex = 0
@@ -109,7 +108,7 @@ def kmeans(points, k, cutoff  ):
             for i in range(clusterCount - 1):
                 # calculate the distance of that point to each other cluster's
                 # centroid.
-                distance = getDistance(p, clusters[i+1].centroid)
+                distance = cluster.getDistance(p, clusters[i+1].centroid)
                 # If it's closer to that cluster's centroid update what we
                 # think the smallest distance is
                 if distance < smallest_distance:
@@ -218,9 +217,13 @@ class MyHandler(SimpleHTTPRequestHandler):
             if ("kmean-calculation" in post_operation):
                 res = handleKmeanRequest(received_body)
                 print res
+                if res is None:
+                    status_code = 500
+                    body = "can't calculate kmean"
 
-                body = json.dumps(res,default=obj_dict)
-                status_code = 200
+                else :
+                    body = json.dumps(res,default=obj_dict)
+                    status_code = 200
             elif (post_operation == "test"):
                 status_code, body = 200, "test accepted"
 

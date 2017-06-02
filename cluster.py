@@ -31,7 +31,7 @@ class Cluster(object):
     A set of points and their centroid
     '''
 
-    def __init__(self, points):
+    def __init__(self, points,_centroid=None):
         '''
         points - A list of point objects
         '''
@@ -51,7 +51,8 @@ class Cluster(object):
                 raise Exception("ERROR: inconsistent dimensions")
 
         # Set up the initial centroid (this is usually based off one point)
-        self.centroid = self.calculateCentroid()
+        if( _centroid is not None ):
+            self.centroid = self.calculateCentroid()
 
     def __repr__(self):
         '''
@@ -140,7 +141,6 @@ def plotClusters(data):
         centroid['marker']['color'] = 'rgb(200,10,10)'
         centroid['name'] = "Centroid " + str(i)
         traceList.append(Scatter(**centroid))
-
 
     title = "K-means clustering with %s clusters - Microsoft assignment " % str(len(data))
     plotly.offline.plot({

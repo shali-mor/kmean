@@ -11,10 +11,9 @@ http://pandoricweb.tumblr.com/post/8646701677/python-implementation-of-the-k-mea
 import sys, getopt, os, json
 import requests
 
-import cluster as Cluster
-import cluster as Point
-
-
+from cluster import Point
+from cluster import Cluster
+from cluster import plotClusters
 
 plotly = False
 try:
@@ -22,25 +21,6 @@ try:
     from plotly.graph_objs import Scatter, Scatter3d, Layout
 except ImportError:
     print "INFO: Plotly is not installed, plots will not be generated."
-
-
-
-class Point(object):
-    '''
-    A point in n dimensional space
-    '''
-    def __init__(self, coords):
-        '''
-        coords - A list of values, one per dimension
-        '''
-
-        self.coords = coords
-        self.n = len(coords)
-
-    def __repr__(self):
-        return str(self.coords)
-
-
 
 class kmean_consul(json.JSONEncoder):
     def __init__(self, num_of_cluster, min_boundry, max_boundry,epsilon,number_of_points, dst_ip, user_pair_points):
@@ -71,7 +51,7 @@ def post_request(mean_obj):
         for j in xrange(len(response[i]['points'])):
             print response[i]['points'][j]['coords']
             points.append(Point(response[i]['points'][j]['coords']))
-        clusters.append( Cluster(points,Point(response[i]['centroid']['coords'])))
+        clusters.append( Cluster(points, Point(response[i]['centroid']['coords'])))
 
 
 
@@ -153,13 +133,20 @@ if __name__ == "__main__":
 
     if(file is not None):
         user_pair_points = load_points_params(file)
+        if(len(user_pair_points) <2):
+            print "please add some points as clustering requires at least two points."
+            exit(0)
+        print("number of sampels  = " + str(len(user_pair_points)))
+    else:
+        print("lower bound = " + str(lower))
+        print("upper bound = " + str(upper))
+        print("number of sampels  = " + str(num_of_samples))
 
     print("num of clusters = "+str(k))
     print("ip = " + str(ip))
-    print("lower bound = " + str(lower))
-    print("upper bound = " + str(upper))
+
     print("epsilon = " + str(epsilon))
-    print("number of sampels  = " + str(num_of_samples))
+
 
     req = kmean_consul(k,lower,upper,epsilon,num_of_samples , ip, user_pair_points)
     res = post_request(req)
