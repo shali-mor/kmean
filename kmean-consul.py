@@ -11,16 +11,10 @@ http://pandoricweb.tumblr.com/post/8646701677/python-implementation-of-the-k-mea
 import sys, getopt, os, json
 import requests
 
-from cluster import Point
-from cluster import Cluster
-from cluster import plotClusters
+from cluster import *
+from point import *
 
-plotly = False
-try:
-    import plotly
-    from plotly.graph_objs import Scatter, Scatter3d, Layout
-except ImportError:
-    print "INFO: Plotly is not installed, plots will not be generated."
+
 
 class kmean_consul(json.JSONEncoder):
     def __init__(self, num_of_cluster, min_boundry, max_boundry,epsilon,number_of_points, dst_ip, user_pair_points):
@@ -33,23 +27,19 @@ class kmean_consul(json.JSONEncoder):
         self.user_pair_points = user_pair_points
 
 def post_request(mean_obj):
-    url = "http://127.0.0.1:5555/kmean-calculation"
+    url = mean_obj.dst_ip
     r = requests.post(url, data=json.dumps(mean_obj.__dict__), timeout=30)
     if (r.status_code != 200 and r.status_code != 201):
         print r.text, r.status_code
         return False
 
-    print "Response received , build relevent cluster : "
+    print "Response received , build relevant cluster : "
     response = eval(json.loads(r.text))
     clusters=[]
-    print ("number of clusters are " + str(len(response)))
 
     for i in xrange(len(response)):
-        print ("\ncluster " +str(i)+ " centroid :" +str(response[i]['centroid']['coords'])+ " elements : ")
         points = []
-        print ("--------------------------")
         for j in xrange(len(response[i]['points'])):
-            print response[i]['points'][j]['coords']
             points.append(Point(response[i]['points'][j]['coords']))
         clusters.append( Cluster(points, Point(response[i]['centroid']['coords'])))
 
@@ -81,7 +71,7 @@ def load_points_params(file_name):
     print abs_file_path
     with open(abs_file_path) as json_data:
         d = json.load(json_data)
-        print(d)
+        #print(d)
     p = d['pairs']
     return p
 
@@ -90,7 +80,7 @@ if __name__ == "__main__":
     k = 2
     lower = 0
     upper = 100
-    epsilon = 0000.2
+    epsilon = 0.002
     num_of_samples = 20
     file  = None
     user_pair_points = None

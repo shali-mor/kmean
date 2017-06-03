@@ -1,5 +1,8 @@
 
 import math
+from point import Point
+
+
 
 plotly = False
 try:
@@ -8,27 +11,11 @@ try:
 except ImportError:
     print "INFO: Plotly is not installed, plots will not be generated."
 
-
-class Point(object):
-    '''
-    A point in n dimensional space
-    '''
-    def __init__(self, coords):
-        '''
-        coords - A list of values, one per dimension
-        '''
-
-        self.coords = coords
-        self.n = len(coords)
-
-    def __repr__(self):
-        return str(self.coords)
-
-
-
 class Cluster(object):
     '''
     A set of points and their centroid
+    in case this class is used by the client , centroid is given . in case this is used by the server,
+    cenrtoid is calcualted.
     '''
 
     def __init__(self, points,_centroid=None):
@@ -51,8 +38,10 @@ class Cluster(object):
                 raise Exception("ERROR: inconsistent dimensions")
 
         # Set up the initial centroid (this is usually based off one point)
-        if( _centroid is not None ):
+        if( _centroid is None ):
             self.centroid = self.calculateCentroid()
+        else:
+            self.centroid = _centroid
 
     def __repr__(self):
         '''
