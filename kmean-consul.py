@@ -45,11 +45,7 @@ def post_request(mean_obj):
 
 
 
-    # Print our clusters
-    for i, c in enumerate(clusters):
-        print "\nCluster : " ,i ,"\t Centroid :",clusters[i].centroid
-        for p in c.points:
-            print "\t  ", p
+    printClusters(clusters)
 
 
     print ("plot is coming.... ")
@@ -84,7 +80,8 @@ if __name__ == "__main__":
     num_of_samples = 20
     file  = None
     user_pair_points = None
-    ip = "127.0.0.1"
+
+    ip = "http://127.0.0.1:5555"
 
     usage = "kmean-consul.py [-k <num>] [-v vector ][-i <host ip>]  \n" + \
             "-h     present this help\n" + \

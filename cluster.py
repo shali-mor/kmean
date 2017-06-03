@@ -136,3 +136,10 @@ def plotClusters(data):
         "data": traceList,
         "layout": Layout(title=title)
     })
+
+def printClusters(clusters):
+# Print our clusters
+    for i, c in enumerate(clusters):
+        print "\nCluster : " ,i ,"\t Centroid :",clusters[i].centroid
+        for p in c.points:
+            print "\t  ", p
