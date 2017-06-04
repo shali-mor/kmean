@@ -30,24 +30,21 @@ def post_request(mean_obj):
     url = mean_obj.dst_ip
     r = requests.post(url, data=json.dumps(mean_obj.__dict__), timeout=30)
     if (r.status_code != 200 and r.status_code != 201):
-        print r.text, r.status_code
+        print (r.text)
+        print (r.status_code)
         return False
 
-    print "Response received , build relevant cluster : "
+    print ("Response received , build relevant cluster : ")
     response = eval(json.loads(r.text))
     clusters=[]
 
-    for i in xrange(len(response)):
+    for i in range(len(response)):
         points = []
-        for j in xrange(len(response[i]['points'])):
+        for j in range(len(response[i]['points'])):
             points.append(Point(response[i]['points'][j]['coords']))
         clusters.append( Cluster(points, Point(response[i]['centroid']['coords'])))
 
-
-
     printClusters(clusters)
-
-
     print ("plot is coming.... ")
     plotClusters(clusters)
 
@@ -64,7 +61,7 @@ def load_points_params(file_name):
     script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
 
     abs_file_path = os.path.join(script_dir, file_name)
-    print abs_file_path
+    print (abs_file_path)
     with open(abs_file_path) as json_data:
         d = json.load(json_data)
         #print(d)
@@ -97,11 +94,11 @@ if __name__ == "__main__":
     try:
         opts, args = getopt.getopt(sys.argv[1:],"hk:v:i:l:u:f:e:n:")
     except getopt.GetoptError:
-        print usage
+        print (usage)
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print usage
+            print (usage)
             sys.exit(0)
         elif opt in ("-k"):
             k = int(arg)
@@ -121,7 +118,7 @@ if __name__ == "__main__":
     if(file is not None):
         user_pair_points = load_points_params(file)
         if(len(user_pair_points) <2):
-            print "please add some points as clustering requires at least two points."
+            print ("please add some points as clustering requires at least two points.")
             exit(0)
         print("number of sampels  = " + str(len(user_pair_points)))
     else:

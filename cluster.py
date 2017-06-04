@@ -6,10 +6,11 @@ from point import Point
 
 plotly = False
 try:
+
     import plotly
     from plotly.graph_objs import Scatter, Scatter3d, Layout
 except ImportError:
-    print "INFO: Plotly is not installed, plots will not be generated."
+    print ("INFO: Plotly is not installed, plots will not be generated.")
 
 class Cluster(object):
     '''
@@ -140,6 +141,6 @@ def plotClusters(data):
 def printClusters(clusters):
 # Print our clusters
     for i, c in enumerate(clusters):
-        print "\nCluster : " ,i ,"\t Centroid :",clusters[i].centroid
+        print ("Cluster : " ,i ,"   Centroid :",clusters[i].centroid)
         for p in c.points:
-            print "\t  ", p
+            print (p)
