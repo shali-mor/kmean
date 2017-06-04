@@ -23,6 +23,7 @@ Note: if '-f' option is used, lower/upper will be ignored.
 Before running this code , make sure all packages stated in requirements.txt are properly installed. 
 
 pip install --upgrade pip
+
 pip install --no-cache-dir -r requirements.txt
 
 (if you have both python 2 and 3 installed , make sure you update both with the packages) 
