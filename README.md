@@ -11,8 +11,19 @@ usage =   kmean-consul.py [-k <kmean>][-l <lower>][-u <upper>][-e <epsilon>][-f 
                           -l     lower bound  value (default 0)
                           -u     upper point value  (default 100)
                           -e     epsilon : optimization has 'converged' and stop updating clusters (default 0.2)
-                          -f     JSON file contains pair points as input
-                          -i     destination ip     (default 127.0.0.1)
-Example: kmean-consul.py -k 2 -i 127.0.0.1 -f .
+                          -f     JSON file contains pair points as input. example file can be viewed in the current folder (pairs.json)
+                          -i     destination ip     (default https://kmean.azurewebsites.net/api/pythonKmean )
+Example: kmean-consul.py -k 2 -i https://kmean.azurewebsites.net/api/pythonKmean -f pairs.json
 
+
+A plot with the clusters mapping will be available at the end of the run (temp-plot.html file is created and immediatly presented) 
 Note: if '-f' option is used, lower/upper will be ignored.
+
+
+Before running this code , make sure all packages stated in requirements.txt are properly installed. 
+
+pip install --upgrade pip
+
+pip install --no-cache-dir -r requirements.txt
+
+(if you have both python 2 and 3 installed , make sure you update both with the packages) 
