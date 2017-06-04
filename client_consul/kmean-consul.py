@@ -88,7 +88,7 @@ if __name__ == "__main__":
             "-f     file contains pair points as input\n" + \
             "-i     destination ip     (default 127.0.0.1)\n" + \
             "-n     number of samples to create\n" +\
-            "Example: kmean-consul.py -k 2 -i http://127.0.0.1 -f kmean-sample.json \n"
+            "Example: kmean-consul.py -k 2 -i http://127.0.0.1:5555 -f pairs.json \n"
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],"hk:v:i:l:u:f:e:n:")

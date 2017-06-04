@@ -1,7 +1,8 @@
 
 import random
-from cluster import *
-from point  import Point
+
+from client_consul.cluster import *
+from client_consul.point  import Point
 
 import json
 import os
