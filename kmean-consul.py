@@ -78,7 +78,7 @@ if __name__ == "__main__":
     file  = None
     user_pair_points = None
 
-    ip = "http://127.0.0.1:5555"
+    ip = "https://kmean.azurewebsites.net/api/pythonKmean"
 
     usage = "kmean-consul.py [-k <num>] [-v vector ][-i <host ip>]  \n" + \
             "-h     present this help\n" + \

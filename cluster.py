@@ -141,6 +141,6 @@ def plotClusters(data):
 def printClusters(clusters):
 # Print our clusters
     for i, c in enumerate(clusters):
-        print ("Cluster : " ,i ,"   Centroid :",clusters[i].centroid)
+        print ("Cluster : " +str(i) +"   Centroid : " +str(clusters[i].centroid))
         for p in c.points:
             print (p)
