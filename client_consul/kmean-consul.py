@@ -12,8 +12,7 @@ import sys, getopt, os, json
 import requests
 
 from cluster import *
-from point import *
-
+from point import Point
 
 
 class kmean_consul(json.JSONEncoder):

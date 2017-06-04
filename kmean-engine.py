@@ -1,7 +1,7 @@
 
 import random
 from cluster import *
-from point import Point
+from point  import Point
 
 import json
 import os
