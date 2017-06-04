@@ -88,7 +88,7 @@ if __name__ == "__main__":
             "-f     file contains pair points as input\n" + \
             "-i     destination ip     (default 127.0.0.1)\n" + \
             "-n     number of samples to create\n" +\
-            "Example: kmean-consul.py -k 2 -i 127.0.0.1 -f kmean-sample.json \n"
+            "Example: kmean-consul.py -k 2 -i http://127.0.0.1 -f kmean-sample.json \n"
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],"hk:v:i:l:u:f:e:n:")
@@ -114,12 +114,16 @@ if __name__ == "__main__":
         elif opt in ("-n"):
             num_of_samples = int(arg)
 
-    if(file is not None):
-        user_pair_points = load_points_params(file)
-        if(len(user_pair_points) <2):
-            print ("please add some points as clustering requires at least two points.")
-            exit(0)
-        print("number of sampels  = " + str(len(user_pair_points)))
+    if(file is not None  ):
+        if (os.path.isfile(file)):
+            user_pair_points = load_points_params(file)
+            if(len(user_pair_points) <2):
+                print ("please add some points as clustering requires at least two points.")
+                exit(0)
+            print("number of sampels  = " + str(len(user_pair_points)))
+        else:
+            print("file doesn't exist , exit ")
+            exit (0)
     else:
         print("lower bound = " + str(lower))
         print("upper bound = " + str(upper))
