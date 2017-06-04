@@ -16,15 +16,14 @@ usage =   kmean-consul.py [-h <help>][-k <kmean>][-l <lower>][-u <upper>][-e <ep
                           
 Example: kmean-consul.py -k 2 -i https://kmean.azurewebsites.net/api/pythonKmean -f pairs.json
 
-
-A plot with the clusters mapping will be available at the end of the run (temp-plot.html file is created and immediatly presented) 
-Note: if '-f' option is used, lower/upper will be ignored.
-
-
-Before running this code , make sure all packages stated in requirements.txt are properly installed. 
-
-pip install --upgrade pip
-
-pip install --no-cache-dir -r requirements.txt
-
-(if you have both python 2 and 3 installed , make sure you update both with the packages) 
+Some important notes: 
+1. If you wish to run the client consul , all you need is the client_consul folder !
+2. Before running this code , make sure all packages stated in requirements.txt are properly installed.
+3. when using the above option to the client consul , when '-f' option is set, 'lower'/'upper' values will be ignored.
+4. A plot with the clusters mapping will be available at the end of the run (temp-plot.html file is created and immediatly presented)  
+5. The actuall kmean algorithm running at the Azur serverless is run.py . if you wish to run the server locally (using 127.0.0.1) , you 
+   will be required to run the kmean-engine.py . this was done due to the specific HTTP server used at Azur. (this is the only  
+   difference )  
+   pip install --upgrade pip
+   pip install --no-cache-dir -r requirements.txt
+7. if you have both python 2 and 3 installed , make sure you update both with the packages 
