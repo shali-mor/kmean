@@ -27,7 +27,11 @@ class kmean_consul(json.JSONEncoder):
 
 def post_request(mean_obj):
     url = mean_obj.dst_ip
-    r = requests.post(url, data=json.dumps(mean_obj.__dict__), timeout=30)
+    val = os.getenv('ANALYZE',"MICROSOFT")
+    header = { "HOME":val }
+    print (header)
+
+    r = requests.post(url, headers = header, data=json.dumps(mean_obj.__dict__), timeout=30)
     if (r.status_code != 200 and r.status_code != 201):
         print (r.text)
         print (r.status_code)
@@ -69,7 +73,7 @@ def load_points_params(file_name):
 
 if __name__ == "__main__":
 
-    k = 2
+    k = 3
     lower = 0
     upper = 100
     epsilon = 0.002
@@ -86,9 +90,9 @@ if __name__ == "__main__":
             "-u     upper point value  (default 100)\n" + \
             "-e     epsilon : optimization has 'converged' and stop updating clusters (default 0.2)\n" + \
             "-f     file contains pair points as input\n" + \
-            "-i     destination ip     (default 127.0.0.1)\n" + \
+            "-i     destination ip     (default https://kmean.azurewebsites.net/api/pythonKmean)\n" + \
             "-n     number of samples to create\n" +\
-            "Example: kmean-consul.py -k 2 -i http://127.0.0.1:5555 -f pairs.json \n"
+            "Example: kmean-consul.py -k 2 -i https://kmean.azurewebsites.net/api/pythonKmean -f pairs.json \n"
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],"hk:v:i:l:u:f:e:n:")
