@@ -142,7 +142,6 @@ def obj_dict(obj):
 
 postreqdata = json.loads(open(os.environ['req']).read())
 print postreqdata
-cluster_list = []
 
 res = handleKmeanRequest(postreqdata)
 print res
